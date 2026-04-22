@@ -125,20 +125,33 @@ curl -X POST http://localhost:8000/predict \
 }
 
 ## How It Works?
+
 -User uploads an image or video through the web interface
+
 -The file is sent to the FastAPI backend via a multipart POST request
+
 -OpenCV's Haar cascade detects and crops the largest face region
+
 -The face crop is normalised and passed through the fine-tuned Xception model
+
 -A softmax confidence score is returned — REAL or FAKE
+
 -The uploaded file is immediately deleted from the server
+
 -The result is displayed with an animated confidence bar
+
 
 ## Acknowledgements
 
+
 FaceForensics++ — deepfake dataset
+
 timm — Xception pretrained weights
+
 albumentations — image augmentation pipeline
+
 Chollet, F. (2017) — Xception architecture
+
 
 ## License
 This project is for academic and educational purposes.
