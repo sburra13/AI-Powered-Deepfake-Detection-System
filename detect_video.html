@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detect Video — DeepFake</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ══════════════════════════════
+     DETECT NAV
+══════════════════════════════ -->
+<nav class="detect-nav">
+  <a class="nav-logo" href="home.html">
+    <div class="nav-logo-icon">🛡</div>
+    Deep<span>Fake</span>
+  </a>
+  <a href="home.html" class="back-btn">← Back to Home</a>
+</nav>
+
+<!-- ══════════════════════════════
+     PAGE BODY
+══════════════════════════════ -->
+<main class="detect-page">
+  <div class="detect-wrapper">
+
+    <div class="detect-header">
+      <div class="hero-badge" style="margin-bottom:16px; background:rgba(58,174,255,0.08); border-color:rgba(58,174,255,0.2); color:var(--accent2);">Video Deepfake Detection</div>
+      <h1>Is this video <span style="color:var(--accent2);">real?</span></h1>
+      <p>Upload a video clip and our AI will analyse sampled frames for deepfake manipulation, returning an overall verdict and per-frame confidence breakdown.</p>
+    </div>
+
+    <div class="detect-grid">
+
+      <!-- ── LEFT: Upload panel ── -->
+      <div class="upload-panel" style="border-color: rgba(58,174,255,0.15);">
+        <h3>Upload a Video</h3>
+        <p class="sub">Supports MP4, MOV, AVI, MKV. Max 200MB. Best results with clear, well-lit face footage.</p>
+
+        <div class="upload-zone" id="dropzone"
+             ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)"
+             style="border-color: rgba(58,174,255,0.2);">
+          <input type="file" id="fileInput" accept="video/*" onchange="onFileSelect(this)" />
+          <div class="upload-icon" style="background:rgba(58,174,255,0.1); color:var(--accent2);">🎬</div>
+          <p><strong>Click to browse</strong> or drag and drop your video here</p>
+          <p style="margin-top:6px; font-size:0.8rem;">MP4 · MOV · AVI · MKV</p>
+        </div>
+
+        <div class="preview-area" id="previewArea">
+          <video id="preview" controls muted playsinline></video>
+        </div>
+
+        <button class="detect-btn blue" id="detectBtn" disabled onclick="runDetection()">
+          <span class="btn-text">Analyse Video</span>
+          <div class="spinner" style="border-color:rgba(5,8,16,0.3); border-top-color:#050810;"></div>
+        </button>
+
+        <!-- Progress bar (shown during long video processing) -->
+        <div id="progressWrap" style="display:none; margin-top:16px;">
+          <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:var(--muted); margin-bottom:6px;">
+            <span>Analysing frames…</span>
+            <span id="progressPct">0%</span>
+          </div>
+          <div style="width:100%; height:4px; background:rgba(255,255,255,0.06); border-radius:2px; overflow:hidden;">
+            <div id="progressBar" style="height:100%; width:0%; background:var(--accent2); border-radius:2px; transition:width 0.4s ease;"></div>
+          </div>
+        </div>
+
+        <!-- Result -->
+        <div class="result-box" id="resultBox">
+          <div class="result-top">
+            <div class="result-icon" id="resultIcon"></div>
+            <div>
+              <div class="result-label">Overall Verdict</div>
+              <div class="result-verdict" id="resultVerdict">—</div>
+            </div>
+          </div>
+          <div class="conf-bar-wrap">
+            <div class="conf-label">
+              <span>Confidence</span>
+              <span id="confPct">—</span>
+            </div>
+            <div class="conf-bar-bg">
+              <div class="conf-bar-fill" id="confBar" style="width:0%"></div>
+            </div>
+          </div>
+          <p id="resultNote" style="font-size:0.8rem; color:var(--muted); margin-top:12px; line-height:1.6;"></p>
+
+          <!-- Frame breakdown (if returned by API) -->
+          <div id="frameBreakdown" style="display:none; margin-top:16px; padding-top:16px; border-top:1px solid var(--border);">
+            <p style="font-size:0.75rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:10px;">Frame-level analysis</p>
+            <div id="frameBars" style="display:flex; gap:3px; align-items:flex-end; height:40px;"></div>
+            <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:var(--muted); margin-top:6px;">
+              <span>Frame 1</span>
+              <span id="frameCount"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Error -->
+        <div id="errorBox" style="display:none; margin-top:20px; padding:16px 20px; background:rgba(255,92,106,0.07); border:1px solid rgba(255,92,106,0.25); border-radius:var(--radius); font-size:0.875rem; color:#ff8a94;">
+          <strong>Error:</strong> <span id="errorMsg"></span>
+        </div>
+      </div>
+
+      <!-- ── RIGHT: Examples + info ── -->
+      <div class="examples-panel">
+        <h3>Sample Comparisons</h3>
+        <p class="sub">Side-by-side examples of authentic and deepfake video footage.</p>
+
+        <div class="sample-pair">
+          <div class="sample-card real-card">
+            <video autoplay muted loop playsinline
+                   onerror="this.closest('.sample-card').style.background='linear-gradient(160deg,#0e1a0e,#0e1117)'; this.style.display='none';">
+              <source src="samples/real-video.mp4" type="video/mp4" />
+            </video>
+            <div class="sample-label">
+              <div class="sample-dot"></div>
+              Real
+            </div>
+          </div>
+          <div class="sample-card fake-card">
+            <video autoplay muted loop playsinline
+                   onerror="this.closest('.sample-card').style.background='linear-gradient(160deg,#1a0e0e,#0e1117)'; this.style.display='none';">
+              <source src="samples/fake-video.mp4" type="video/mp4" />
+            </video>
+            <div class="sample-label">
+              <div class="sample-dot"></div>
+              Deepfake
+            </div>
+          </div>
+        </div>
+
+        <div class="how-it-works">
+          <h4>How video analysis works</h4>
+          <div class="step">
+            <div class="step-num" style="background:rgba(58,174,255,0.12); border-color:rgba(58,174,255,0.2); color:var(--accent2);">1</div>
+            <p>Your video is uploaded to the FastAPI backend and frames are extracted at regular intervals.</p>
+          </div>
+          <div class="step">
+            <div class="step-num" style="background:rgba(58,174,255,0.12); border-color:rgba(58,174,255,0.2); color:var(--accent2);">2</div>
+            <p>Each sampled frame is processed by the Haar cascade face detector to isolate the face region.</p>
+          </div>
+          <div class="step">
+            <div class="step-num" style="background:rgba(58,174,255,0.12); border-color:rgba(58,174,255,0.2); color:var(--accent2);">3</div>
+            <p>Each face crop is classified individually by the Xception model, producing a per-frame confidence score.</p>
+          </div>
+          <div class="step">
+            <div class="step-num" style="background:rgba(58,174,255,0.12); border-color:rgba(58,174,255,0.2); color:var(--accent2);">4</div>
+            <p>Scores are aggregated across all frames into a final verdict. The video is then deleted from the server.</p>
+          </div>
+        </div>
+
+        <div style="margin-top:20px; padding:16px 20px; background:rgba(58,174,255,0.04); border:1px solid rgba(58,174,255,0.12); border-radius:var(--radius);">
+          <p style="font-size:0.8rem; color:var(--muted); line-height:1.6;">
+            <strong style="color:var(--text); font-weight:500;">Tip:</strong> For accurate results, ensure the video contains a clearly visible face and is at least 3 seconds long. Heavily compressed or low-resolution video may reduce accuracy.
+          </p>
+        </div>
+
+        <div style="margin-top:12px; padding:16px 20px; background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:var(--radius);">
+          <p style="font-size:0.8rem; color:var(--muted); line-height:1.6;">
+            <strong style="color:var(--text); font-weight:500;">Privacy note:</strong> Uploaded videos are deleted immediately after analysis is complete.
+          </p>
+        </div>
+      </div>
+
+    </div><!-- /detect-grid -->
+  </div><!-- /detect-wrapper -->
+</main>
+
+<script>
+  const API_BASE = 'http://localhost:8000';  // ← change to your FastAPI host
+  let selectedFile = null;
+
+  // ── Drag & Drop ──
+  function onDragOver(e) {
+    e.preventDefault();
+    document.getElementById('dropzone').classList.add('drag-over');
+  }
+  function onDragLeave() {
+    document.getElementById('dropzone').classList.remove('drag-over');
+  }
+  function onDrop(e) {
+    e.preventDefault();
+    document.getElementById('dropzone').classList.remove('drag-over');
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('video/')) loadFile(file);
+  }
+
+  function onFileSelect(input) {
+    if (input.files[0]) loadFile(input.files[0]);
+  }
+
+  function loadFile(file) {
+    selectedFile = file;
+    const video = document.getElementById('preview');
+    video.src = URL.createObjectURL(file);
+    document.getElementById('previewArea').classList.add('show');
+    document.getElementById('detectBtn').disabled = false;
+    document.getElementById('resultBox').classList.remove('show', 'real', 'fake');
+    document.getElementById('errorBox').style.display = 'none';
+    document.getElementById('progressWrap').style.display = 'none';
+    document.getElementById('frameBreakdown').style.display = 'none';
+  }
+
+  // ── Fake progress animation (for UX while waiting) ──
+  let progressInterval = null;
+
+  function startProgress() {
+    const wrap = document.getElementById('progressWrap');
+    const bar  = document.getElementById('progressBar');
+    const pct  = document.getElementById('progressPct');
+    wrap.style.display = 'block';
+    let p = 0;
+    progressInterval = setInterval(() => {
+      if (p < 88) { p += Math.random() * 4; }
+      bar.style.width = `${Math.min(p, 88)}%`;
+      pct.textContent  = `${Math.min(Math.round(p), 88)}%`;
+    }, 300);
+  }
+
+  function finishProgress() {
+    clearInterval(progressInterval);
+    document.getElementById('progressBar').style.width = '100%';
+    document.getElementById('progressPct').textContent = '100%';
+    setTimeout(() => {
+      document.getElementById('progressWrap').style.display = 'none';
+    }, 600);
+  }
+
+  // ── Run Detection ──
+  async function runDetection() {
+    if (!selectedFile) return;
+
+    const btn = document.getElementById('detectBtn');
+    btn.disabled = true;
+    btn.classList.add('btn-loading');
+    document.getElementById('resultBox').classList.remove('show', 'real', 'fake');
+    document.getElementById('errorBox').style.display = 'none';
+    document.getElementById('frameBreakdown').style.display = 'none';
+
+    startProgress();
+
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+
+    try {
+      const response = await fetch(`${API_BASE}/predict-video`, {
+        method: 'POST',
+        body: formData
+      });
+
+      if (!response.ok) throw new Error(`Server error: ${response.status}`);
+
+      const data = await response.json();
+      if (data.error) throw new Error(data.error);
+
+      finishProgress();
+      showResult(data);
+
+    } catch (err) {
+      finishProgress();
+      document.getElementById('errorMsg').textContent =
+        err.message || 'Could not connect to the detection server. Make sure the FastAPI backend is running on port 8000.';
+      document.getElementById('errorBox').style.display = 'block';
+    } finally {
+      btn.disabled = false;
+      btn.classList.remove('btn-loading');
+    }
+  }
+
+  function showResult(data) {
+    const prediction = data.prediction;
+    const confidence = data.confidence;
+    const frames     = data.frame_scores || null;   // optional frame-level data
+
+    const box     = document.getElementById('resultBox');
+    const icon    = document.getElementById('resultIcon');
+    const verdict = document.getElementById('resultVerdict');
+    const confPct = document.getElementById('confPct');
+    const bar     = document.getElementById('confBar');
+    const note    = document.getElementById('resultNote');
+
+    const isReal = prediction === 'REAL';
+
+    box.className = `result-box show ${isReal ? 'real' : 'fake'}`;
+    icon.textContent = isReal ? '✓' : '✗';
+    verdict.textContent = isReal ? 'Authentic' : 'Deepfake Detected';
+    confPct.textContent = `${confidence.toFixed(1)}%`;
+    setTimeout(() => { bar.style.width = `${confidence}%`; }, 50);
+
+    note.textContent = isReal
+      ? `Across all analysed frames, the model is ${confidence.toFixed(1)}% confident this video is authentic. No consistent manipulation artefacts were found.`
+      : `The model detected deepfake manipulation with ${confidence.toFixed(1)}% confidence. GAN artefacts or face-swap boundaries were identified across multiple frames.`;
+
+    // ── Optional frame-level bar chart ──
+    if (frames && frames.length > 0) {
+      const breakdown = document.getElementById('frameBreakdown');
+      const barsEl    = document.getElementById('frameBars');
+      document.getElementById('frameCount').textContent = `Frame ${frames.length}`;
+      barsEl.innerHTML = '';
+
+      frames.forEach(score => {
+        const barEl = document.createElement('div');
+        const isFakeFrame = score > 0.5;
+        barEl.style.cssText = `
+          flex: 1;
+          height: ${Math.round(score * 100)}%;
+          background: ${isFakeFrame ? 'var(--danger)' : 'var(--accent)'};
+          border-radius: 2px 2px 0 0;
+          opacity: 0.8;
+          min-width: 3px;
+          transition: opacity 0.2s;
+          cursor: default;
+        `;
+        barEl.title = `${Math.round(score * 100)}% fake`;
+        barsEl.appendChild(barEl);
+      });
+
+      breakdown.style.display = 'block';
+    }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title> AI Deepfake Detection</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ══════════════════════════════
+     NAVBAR
+══════════════════════════════ -->
+<nav>
+  <a class="nav-logo" href="home.html">
+    <div class="nav-logo-icon">🛡</div>
+    Deep<span>Fake</span>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="home.html">Home</a></li>
+
+    <li class="nav-dropdown">
+      <a href="#">Try DeepFake</a>
+      <div class="dropdown-menu">
+        <a href="#image-section">
+          <div class="dropdown-icon img">🖼</div>
+          <div>
+            <div style="color:var(--text);font-weight:500;font-size:0.85rem;">Detect Image</div>
+            <div style="font-size:0.75rem;">Analyse a photo for manipulation</div>
+          </div>
+        </a>
+        <a href="#video-section">
+          <div class="dropdown-icon vid">🎬</div>
+          <div>
+            <div style="color:var(--text);font-weight:500;font-size:0.85rem;">Detect Video</div>
+            <div style="font-size:0.75rem;">Frame-by-frame deepfake scan</div>
+          </div>
+        </a>
+      </div>
+    </li>
+
+    <li><a href="#about">About Us</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════════════════════════
+     HERO
+══════════════════════════════ -->
+<section class="hero" style="max-width:none; padding-left:48px; padding-right:48px;">
+  <div class="hero-glow"></div>
+  <div style="position:relative; z-index:1;">
+    <div class="hero-badge">Powered by Xception Neural Network</div>
+    <h1>
+      Can you tell<br>what's
+      <span class="line-accent">real?</span>
+    </h1>
+    <p>DeepFake uses state-of-the-art deep learning to detect AI-generated and manipulated faces in images and videos — in seconds.</p>
+    <div class="hero-ctas">
+      <a href="detect_image.html" class="btn-primary">
+        <span>Detect an Image</span>
+        <span>→</span>
+      </a>
+      <a href="detect_video.html" class="btn-primary blue">
+        <span>Detect a Video</span>
+        <span>→</span>
+      </a>
+      <a href="#video-section" class="btn-outline">See how it works</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Stats bar ── -->
+<div style="border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:28px 48px; max-width:100%;">
+  <div style="max-width:1200px; margin:0 auto; display:flex; justify-content:space-around; flex-wrap:wrap; gap:24px;">
+    <div style="text-align:center;">
+      <div style="font-family:'Syne',sans-serif;font-size:2rem;font-weight:700;color:var(--accent);">97.4%</div>
+      <div style="color:var(--muted);font-size:0.8rem;letter-spacing:0.05em;text-transform:uppercase;">Detection Accuracy</div>
+    </div>
+    <div style="width:1px;background:var(--border);"></div>
+    <div style="text-align:center;">
+      <div style="font-family:'Syne',sans-serif;font-size:2rem;font-weight:700;color:var(--accent2);">&lt;2s</div>
+      <div style="color:var(--muted);font-size:0.8rem;letter-spacing:0.05em;text-transform:uppercase;">Average Response Time</div>
+    </div>
+    <div style="width:1px;background:var(--border);"></div>
+    <div style="text-align:center;">
+      <div style="font-family:'Syne',sans-serif;font-size:2rem;font-weight:700;color:var(--accent);">Xception</div>
+      <div style="color:var(--muted);font-size:0.8rem;letter-spacing:0.05em;text-transform:uppercase;">Backbone Architecture</div>
+    </div>
+    <div style="width:1px;background:var(--border);"></div>
+    <div style="text-align:center;">
+      <div style="font-family:'Syne',sans-serif;font-size:2rem;font-weight:700;color:var(--accent2);">99.1%</div>
+      <div style="color:var(--muted);font-size:0.8rem;letter-spacing:0.05em;text-transform:uppercase;">AUC Score</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     VIDEO SECTION
+══════════════════════════════ -->
+<div id="video-section" class="feature-block reveal">
+  <!-- Left: content -->
+  <div class="feature-content">
+    <div class="section-tag">Video Detection</div>
+    <h2>Spot deepfake videos with frame-level precision</h2>
+    <p>Our model analyses each frame independently, extracting and scanning the detected face region using a Haar cascade pre-processor. Even subtle GAN artifacts — blending boundaries, temporal flicker, and unnatural eye movement — are caught.</p>
+    <div class="feature-stats">
+      <div class="stat">
+        <div class="stat-num">30fps</div>
+        <div class="stat-label">Frame Analysis</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">96%</div>
+        <div class="stat-label">Video Accuracy</div>
+      </div>
+    </div>
+    <a href="detect_video.html" class="btn-primary blue">Try DeepFake Video →</a>
+  </div>
+
+  <!-- Right: sample videos -->
+  <div class="feature-media">
+    <div class="media-card">
+      <video autoplay muted loop playsinline>
+        <source src="samples/real-video.mp4" type="video/mp4" />
+      </video>
+      <!-- Placeholder gradient when no video -->
+      <div class="video-placeholder" style="display:none;"></div>
+      <div class="media-label label-real">✓ Real</div>
+    </div>
+    <div class="media-card">
+      <video autoplay muted loop playsinline>
+        <source src="samples/fake-video.mp4" type="video/mp4" />
+      </video>
+      <div class="media-label label-fake">✗ Fake</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider" style="margin: 0 auto; display:block;"></div>
+
+<!-- ══════════════════════════════
+     IMAGE SECTION
+══════════════════════════════ -->
+<div id="image-section" class="feature-block reverse reveal">
+  <!-- Left: sample images (right in reversed grid) -->
+  <div class="feature-media">
+    <div class="media-card">
+      <img src="samples/real-face.jpeg" alt="Real face example"
+           onerror="this.style.aspectRatio='9/16';this.style.background='linear-gradient(160deg,#1a2a1a,#0e1117)';this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\'/>'" />
+      <div class="media-label label-real">✓ Real</div>
+    </div>
+    <div class="media-card">
+      <img src="samples/fake-face.jpeg" alt="Fake face example"
+           onerror="this.style.aspectRatio='9/16';this.style.background='linear-gradient(160deg,#2a1a1a,#0e1117)';this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\'/>'" />
+      <div class="media-label label-fake">✗ Fake</div>
+    </div>
+  </div>
+
+  <!-- Right: content -->
+  <div class="feature-content">
+    <div class="section-tag">Image Detection</div>
+    <h2>Unmask AI-generated faces from a single photo</h2>
+    <p>Upload any portrait and DeepFake will isolate the face region, run it through our fine-tuned Xception classifier, and return a confidence score — telling you definitively whether the image is authentic or synthetically generated.</p>
+    <div class="feature-stats">
+      <div class="stat">
+        <div class="stat-num">97.4%</div>
+        <div class="stat-label">Image Accuracy</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">&lt;1s</div>
+        <div class="stat-label">Inference Time</div>
+      </div>
+    </div>
+    <a href="detect_image.html" class="btn-primary">Try DeepFake Image →</a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     FAQ
+══════════════════════════════ -->
+<div id="faq" style="background:rgba(255,255,255,0.015); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+  <section style="max-width:1200px; margin:0 auto; padding:100px 48px;" class="reveal">
+    <div class="section-tag">FAQ</div>
+    <h2 class="section-title">Common questions</h2>
+    <p class="section-sub">Everything you need to know about how DeepFake works.</p>
+
+    <div class="faq-grid">
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          What types of deepfakes can DeepFake detect?
+          <div class="chevron">▾</div>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-inner">Our DeepFake model is trained on FaceForensics++ data and can detect face-swap deepfakes, GAN-generated faces (e.g. StyleGAN, DALL-E), and face re-enactment attacks. It performs best on frontal face images with good lighting.</div>
+        </div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          How accurate is the model?
+          <div class="chevron">▾</div>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-inner">Our Xception-based model achieves 97.4% accuracy and a 99.1% AUC score on our validation set. Results may vary on heavily compressed or low-resolution media.</div>
+        </div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          Is my uploaded image or video stored?
+          <div class="chevron">▾</div>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-inner">No. Uploaded files are deleted immediately after inference. We do not store, log, or share any media you upload. Everything runs locally on our server and is discarded in the same request.</div>
+        </div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          What file formats are supported?
+          <div class="chevron">▾</div>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-inner">Images: JPEG, PNG, WebP, BMP. Videos: MP4, MOV, AVI, MKV. Maximum file size is 50MB for images and 200MB for videos. We recommend at least 224×224 pixel resolution for best results.</div>
+        </div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          Why does the model need to detect a face?
+          <div class="chevron">▾</div>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-inner">Deepfake manipulation almost always targets the face. By isolating the face region first, the model focuses on the exact pixels where manipulation occurs, dramatically improving accuracy over whole-image analysis.</div>
+        </div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          Can I use the API in my own project?
+          <div class="chevron">▾</div>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-inner">The backend is a FastAPI service. You can call the <code style="color:var(--accent);font-size:0.85em;">/predict</code> endpoint directly with a multipart POST request. See the GitHub repository for full API documentation and usage examples.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════════════════════════
+     ABOUT US
+══════════════════════════════ -->
+<div id="about">
+  <section style="max-width:1200px; margin:0 auto; padding:100px 48px;" class="reveal">
+    <div class="section-tag">About Us</div>
+    <h2 class="section-title">Built for the fight<br>against misinformation</h2>
+    <p class="section-sub">DeepFake is our Masters project exploring the intersection of computer vision and media authenticity.</p>
+
+    <div class="about-grid">
+      <div class="about-card">
+        <h3>Our Mission</h3>
+        <p>As deepfake technology becomes increasingly accessible, the ability to distinguish real from synthetic media is critical. Our DeepFake provides a fast, accessible tool to help journalists, researchers, and the general public verify the authenticity of visual content.</p>
+      </div>
+      <div class="about-card">
+        <h3>Our Technology</h3>
+        <p>We fine-tuned Google's Xception architecture — the same model validated on FaceForensics++ — using strong data augmentation including JPEG compression simulation, which mirrors real-world deepfake distribution. The model is served via a FastAPI backend with sub-second inference.</p>
+      </div>
+    </div>
+
+    <div class="team-grid" style="margin-top:48px;">
+      <div class="team-card">
+        <div class="team-avatar">SB</div>
+        <h4>Saiteja Burra</h4>
+        <p>Team Member</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">CG</div>
+        <h4>Chalana Gajendra</h4>
+        <p>Team Member</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">BK</div>
+        <h4>Bharath Kadarla</h4>
+        <p>Team Member</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════════════════════════
+     FOOTER
+══════════════════════════════ -->
+<footer>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <div class="nav-logo-icon" style="width:24px;height:24px;font-size:11px;">🛡</div>
+    <span style="font-family:'Syne',sans-serif;font-weight:700;">DeepFake</span>
+  </div>
+  <div>Masters Project — AI Deepfake Detection</div>
+  <div>Built with PyTorch · FastAPI · Xception</div>
+</footer>
+
+<script>
+  // ── FAQ accordion ──
+  function toggleFaq(el) {
+    el.classList.toggle('open');
+  }
+
+  // ── Smooth scroll for nav links ──
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // ── Scroll reveal ──
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ── Video placeholder fallback ──
+  document.querySelectorAll('.media-card video').forEach(v => {
+    v.addEventListener('error', () => {
+      const mc = v.closest('.media-card');
+      v.style.display = 'none';
+      const ph = mc.querySelector('.video-placeholder') || document.createElement('div');
+      ph.style.cssText = `aspect-ratio:9/16;background:linear-gradient(160deg,#111a2a,#0e1117);display:block;`;
+      ph.style.display = 'block';
+      mc.insertBefore(ph, mc.firstChild);
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+2026-04-20 14:47:29 | INFO     | Device: cpu
+2026-04-20 14:47:29 | INFO     | Total samples: 2041 | Classes: {'fake': 0, 'real': 1}
+2026-04-20 14:47:29 | INFO     | Train: 1633 | Val: 408
+2026-04-20 14:47:30 | INFO     | Loading pretrained weights from url (https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-cadene/xception-43020ad28.pth)
+2026-04-20 14:47:30 | INFO     | Missing keys (fc.weight, fc.bias) discovered while loading pretrained weights. This is expected if model is being adapted.
+2026-04-20 14:47:30 | INFO     | Class mapping : {'fake': 0, 'real': 1}
+2026-04-20 14:47:30 | INFO     | Class counts  : {0: 960, 1: 1081}
+2026-04-20 14:47:30 | INFO     | Class weights : {0: '0.00104', 1: '0.00093'}
+2026-04-20 14:47:30 | INFO     | Starting training for 15 epochs …
+2026-04-20 14:58:30 | INFO     | Device: cpu
+2026-04-20 14:58:30 | INFO     | Total samples: 2041 | Classes: {'fake': 0, 'real': 1}
+2026-04-20 14:58:30 | INFO     | Train: 1633 | Val: 408
+2026-04-20 14:58:31 | INFO     | Loading pretrained weights from url (https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-cadene/xception-43020ad28.pth)
+2026-04-20 14:58:31 | INFO     | Missing keys (fc.weight, fc.bias) discovered while loading pretrained weights. This is expected if model is being adapted.
+2026-04-20 14:58:31 | INFO     | Class mapping : {'fake': 0, 'real': 1}
+2026-04-20 14:58:31 | INFO     | Class counts  : {0: 960, 1: 1081}
+2026-04-20 14:58:31 | INFO     | Class weights : {0: '0.00104', 1: '0.00093'}
+2026-04-20 14:58:31 | INFO     | Starting training for 15 epochs …
+2026-04-20 15:03:56 | INFO     | Epoch 01/15 | Loss=35.658 | Train=54.19% | Val=57.60% | AUC=0.6765 | LR=2.97e-05
+2026-04-20 15:09:05 | INFO     | Epoch 02/15 | Loss=33.843 | Train=63.07% | Val=66.42% | AUC=0.7061 | LR=2.87e-05
+2026-04-20 15:14:13 | INFO     | Epoch 03/15 | Loss=31.417 | Train=67.97% | Val=64.71% | AUC=0.7133 | LR=2.71e-05
+2026-04-20 15:19:14 | INFO     | Epoch 04/15 | Loss=28.249 | Train=74.10% | Val=67.65% | AUC=0.7270 | LR=2.50e-05
+2026-04-20 15:25:10 | INFO     | Epoch 05/15 | Loss=25.434 | Train=77.65% | Val=68.38% | AUC=0.7337 | LR=2.25e-05
+2026-04-20 15:29:56 | INFO     | Epoch 06/15 | Loss=23.075 | Train=80.77% | Val=65.93% | AUC=0.7308 | LR=1.96e-05
+2026-04-20 15:34:46 | INFO     | Epoch 07/15 | Loss=20.309 | Train=85.06% | Val=67.89% | AUC=0.7439 | LR=1.66e-05
+2026-04-20 15:39:35 | INFO     | Epoch 08/15 | Loss=17.100 | Train=86.96% | Val=66.91% | AUC=0.7482 | LR=1.34e-05
+2026-04-22 12:10:58,395 | INFO     | Device     : cpu
+2026-04-22 12:10:58,396 | INFO     | AMP        : False
+2026-04-22 12:10:58,397 | INFO     | Epochs     : 5
+2026-04-22 12:10:58,397 | INFO     | Batch size : 32
+2026-04-22 12:10:58,415 | INFO     | Dataset    : 3081 real | 2960 fake | 6041 total
+2026-04-22 12:10:58,432 | INFO     | Class mapping: {'fake': 0, 'real': 1}
+2026-04-22 12:10:58,453 | INFO     | Split      : 4833 train | 1208 val
+2026-04-22 12:10:58,472 | INFO     | Class weights: fake=0.0003  real=0.0003
+2026-04-22 12:10:58,654 | INFO     | Loading pretrained weights from url (https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-cadene/xception-43020ad28.pth)
+2026-04-22 12:10:58,774 | INFO     | Missing keys (fc.weight, fc.bias) discovered while loading pretrained weights. This is expected if model is being adapted.
+2026-04-22 12:10:58,780 | INFO     | ============================================================
+2026-04-22 12:10:58,780 | INFO     | Training started
+2026-04-22 12:10:58,780 | INFO     | ============================================================
+2026-04-22 12:24:39,452 | INFO     | Epoch 01/05 | Loss=94.244 | Train=63.23% | Val=76.24% | AUC=0.8655
+2026-04-22 12:45:47,672 | WARNING  | =======================================================
+2026-04-22 12:45:47,673 | WARNING  | NO GPU DETECTED -- running on CPU (will be slow!)
+2026-04-22 12:45:47,673 | WARNING  | Fix: install PyTorch with CUDA support:
+2026-04-22 12:45:47,673 | WARNING  |   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+2026-04-22 12:45:47,674 | WARNING  | =======================================================
+2026-04-22 12:45:47,674 | INFO     | Device     : cpu
+2026-04-22 12:45:47,674 | INFO     | AMP        : False
+2026-04-22 12:45:47,674 | INFO     | Epochs     : 5
+2026-04-22 12:45:47,675 | INFO     | Batch size : 32
+2026-04-22 12:45:47,675 | INFO     | Workers    : 0
+2026-04-22 12:45:47,966 | INFO     | Dataset    : 3081 real | 2960 fake | 6041 total
+2026-04-22 12:45:47,981 | INFO     | Class mapping: {'fake': 0, 'real': 1}
+2026-04-22 12:45:48,000 | INFO     | Split      : 4833 train | 1208 val
+2026-04-22 12:45:48,014 | INFO     | Class weights: fake=0.00034  real=0.00032
+2026-04-22 12:45:48,233 | INFO     | Loading pretrained weights from url (https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-cadene/xception-43020ad28.pth)
+2026-04-22 12:45:48,352 | INFO     | Missing keys (fc.weight, fc.bias) discovered while loading pretrained weights. This is expected if model is being adapted.
+2026-04-22 12:45:48,357 | INFO     | =======================================================
+2026-04-22 12:45:48,357 | INFO     | Training started
+2026-04-22 12:45:48,357 | INFO     | =======================================================
+2026-04-22 12:56:40,834 | INFO     | GPU        : NVIDIA GeForce RTX 4060 Laptop GPU
+2026-04-22 12:56:40,834 | INFO     | PyTorch    : 2.5.1+cu121
+2026-04-22 12:56:40,835 | INFO     | Epochs     : 5
+2026-04-22 12:56:40,835 | INFO     | Batch size : 32
+2026-04-22 12:56:40,853 | INFO     | Dataset    : 3081 real | 2960 fake | 6041 total
+2026-04-22 12:56:40,868 | INFO     | Class mapping: {'fake': 0, 'real': 1}
+2026-04-22 12:56:40,869 | INFO     | Split      : 4833 train | 1208 val
+2026-04-22 12:56:40,938 | INFO     | Class weights: {'fake': 0.00034, 'real': 0.00032}
+2026-04-22 12:56:41,086 | INFO     | Loading pretrained weights from url (https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-cadene/xception-43020ad28.pth)
+2026-04-22 12:56:41,136 | INFO     | Missing keys (fc.weight, fc.bias) discovered while loading pretrained weights. This is expected if model is being adapted.
+2026-04-22 12:56:41,162 | INFO     | =======================================================
+2026-04-22 12:56:41,162 | INFO     | Training started
+2026-04-22 12:56:41,162 | INFO     | =======================================================
+2026-04-22 13:00:14,022 | INFO     | Epoch 01/05 | Loss=93.640 | Train=64.80% | Val=78.06% | AUC=0.8717
+2026-04-22 13:00:14,133 | INFO     |   [SAVED] Best AUC=0.8717 -> model.pth
+2026-04-22 13:03:52,701 | INFO     | Epoch 02/05 | Loss=70.175 | Train=76.06% | Val=78.06% | AUC=0.8997
+2026-04-22 13:03:52,815 | INFO     |   [SAVED] Best AUC=0.8997 -> model.pth
+2026-04-22 13:07:18,831 | INFO     | Epoch 03/05 | Loss=60.130 | Train=80.26% | Val=82.78% | AUC=0.9205
+2026-04-22 13:07:18,964 | INFO     |   [SAVED] Best AUC=0.9205 -> model.pth
+2026-04-22 13:10:51,523 | INFO     | Epoch 04/05 | Loss=53.690 | Train=83.07% | Val=82.53% | AUC=0.9248
+2026-04-22 13:10:51,650 | INFO     |   [SAVED] Best AUC=0.9248 -> model.pth
+2026-04-22 13:14:36,918 | INFO     | Epoch 05/05 | Loss=50.771 | Train=84.21% | Val=83.69% | AUC=0.9266
+2026-04-22 13:14:37,022 | INFO     |   [SAVED] Best AUC=0.9266 -> model.pth
+2026-04-22 13:14:37,022 | INFO     | =======================================================
+2026-04-22 13:14:37,022 | INFO     | Training complete. Best AUC: 0.9266
+2026-04-22 13:14:37,022 | INFO     | model.pth is ready.
+2026-04-22 13:14:37,022 | INFO     | Start API: py -3.12 -m uvicorn app:app --host 0.0.0.0 --port 8000
+2026-04-22 13:14:37,022 | INFO     | =======================================================
+2026-04-22 13:32:33,197 | INFO     | GPU        : NVIDIA GeForce RTX 4060 Laptop GPU
+2026-04-22 13:32:33,197 | INFO     | PyTorch    : 2.5.1+cu121
+2026-04-22 13:32:33,197 | INFO     | Epochs     : 15
+2026-04-22 13:32:33,197 | INFO     | Batch size : 32
+2026-04-22 13:32:33,218 | INFO     | Dataset    : 3081 real | 2960 fake | 6041 total
+2026-04-22 13:32:33,236 | INFO     | Class mapping: {'fake': 0, 'real': 1}
+2026-04-22 13:32:33,236 | INFO     | Split      : 4833 train | 1208 val
+2026-04-22 13:32:33,302 | INFO     | Class weights: {'fake': 0.00034, 'real': 0.00032}
+2026-04-22 13:32:33,449 | INFO     | Loading pretrained weights from url (https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-cadene/xception-43020ad28.pth)
+2026-04-22 13:32:33,510 | INFO     | Missing keys (fc.weight, fc.bias) discovered while loading pretrained weights. This is expected if model is being adapted.
+2026-04-22 13:32:33,546 | INFO     | =======================================================
+2026-04-22 13:32:33,546 | INFO     | Training started
+2026-04-22 13:32:33,546 | INFO     | =======================================================
+2026-04-22 13:36:53,675 | INFO     | Epoch 01/15 | Loss=94.445 | Train=63.63% | Val=76.99% | AUC=0.8697
+2026-04-22 13:36:53,809 | INFO     |   [SAVED] Best AUC=0.8697 -> model.pth
+2026-04-22 13:41:16,842 | INFO     | Epoch 02/15 | Loss=70.211 | Train=75.40% | Val=79.55% | AUC=0.9116
+2026-04-22 13:41:16,987 | INFO     |   [SAVED] Best AUC=0.9116 -> model.pth
+2026-04-22 13:45:18,945 | INFO     | Epoch 03/15 | Loss=58.837 | Train=80.90% | Val=82.86% | AUC=0.9229
+2026-04-22 13:45:19,096 | INFO     |   [SAVED] Best AUC=0.9229 -> model.pth
+2026-04-22 13:49:03,578 | INFO     | Epoch 04/15 | Loss=52.409 | Train=83.24% | Val=84.11% | AUC=0.9311
+2026-04-22 13:49:03,708 | INFO     |   [SAVED] Best AUC=0.9311 -> model.pth
+2026-04-22 13:52:32,019 | INFO     | Epoch 05/15 | Loss=45.245 | Train=85.72% | Val=84.19% | AUC=0.9329
+2026-04-22 13:52:32,151 | INFO     |   [SAVED] Best AUC=0.9329 -> model.pth
+2026-04-22 13:56:00,437 | INFO     | Epoch 06/15 | Loss=41.984 | Train=86.86% | Val=84.35% | AUC=0.9354
+2026-04-22 13:56:00,569 | INFO     |   [SAVED] Best AUC=0.9354 -> model.pth
+2026-04-22 13:59:19,216 | INFO     | Epoch 07/15 | Loss=37.328 | Train=88.85% | Val=84.52% | AUC=0.9340
+2026-04-22 14:02:57,212 | INFO     | Epoch 08/15 | Loss=34.066 | Train=90.21% | Val=84.77% | AUC=0.9379
+2026-04-22 14:02:57,336 | INFO     |   [SAVED] Best AUC=0.9379 -> model.pth
+2026-04-22 14:06:38,982 | INFO     | Epoch 09/15 | Loss=30.150 | Train=91.52% | Val=84.60% | AUC=0.9355
+2026-04-22 14:10:18,520 | INFO     | Epoch 10/15 | Loss=28.352 | Train=92.12% | Val=85.10% | AUC=0.9345
+2026-04-22 14:13:42,352 | INFO     | Epoch 11/15 | Loss=28.087 | Train=91.83% | Val=84.19% | AUC=0.9363
+2026-04-22 14:17:20,750 | INFO     | Epoch 12/15 | Loss=26.837 | Train=92.74% | Val=84.44% | AUC=0.9365
+2026-04-22 14:21:26,715 | INFO     | Epoch 13/15 | Loss=26.099 | Train=92.59% | Val=84.44% | AUC=0.9361
+2026-04-22 14:25:37,311 | INFO     | Epoch 14/15 | Loss=24.845 | Train=92.90% | Val=84.27% | AUC=0.9358
+2026-04-22 14:29:40,112 | INFO     | Epoch 15/15 | Loss=24.851 | Train=93.01% | Val=84.11% | AUC=0.9353
+2026-04-22 14:29:40,112 | INFO     | =======================================================
+2026-04-22 14:29:40,112 | INFO     | Training complete. Best AUC: 0.9379
+2026-04-22 14:29:40,112 | INFO     | model.pth is ready.
+2026-04-22 14:29:40,112 | INFO     | Start API: py -3.12 -m uvicorn app:app --host 0.0.0.0 --port 8000
+2026-04-22 14:29:40,112 | INFO     | =======================================================

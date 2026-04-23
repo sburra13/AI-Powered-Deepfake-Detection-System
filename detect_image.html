@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detect Image — DeepShield</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ══════════════════════════════
+     DETECT NAV
+══════════════════════════════ -->
+<nav class="detect-nav">
+  <a class="nav-logo" href="home.html">
+    <div class="nav-logo-icon">🛡</div>
+    Deep<span>Fake</span>
+  </a>
+  <a href="home.html" class="back-btn">← Back to Home</a>
+</nav>
+
+<!-- ══════════════════════════════
+     PAGE BODY
+══════════════════════════════ -->
+<main class="detect-page">
+  <div class="detect-wrapper">
+
+    <div class="detect-header">
+      <div class="hero-badge" style="margin-bottom:16px;">Image Deepfake Detection</div>
+      <h1>Is this image <span style="color:var(--accent);">real?</span></h1>
+      <p>Upload a portrait photo and our AI will analyse the face region for signs of deepfake manipulation.</p>
+    </div>
+
+    <div class="detect-grid">
+
+      <!-- ── LEFT: Upload panel ── -->
+      <div class="upload-panel">
+        <h3>Upload an Image</h3>
+        <p class="sub">Supports JPEG, PNG, WebP, BMP. Max 50MB. For best results, use a clear frontal face photo.</p>
+
+        <div class="upload-zone" id="dropzone" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
+          <input type="file" id="fileInput" accept="image/*" onchange="onFileSelect(this)" />
+          <div class="upload-icon">🖼</div>
+          <p><strong>Click to browse</strong> or drag and drop your image here</p>
+          <p style="margin-top:6px; font-size:0.8rem;">JPG · PNG · WebP · BMP</p>
+        </div>
+
+        <div class="preview-area" id="previewArea">
+          <img id="preview" src="" alt="Preview" />
+        </div>
+
+        <button class="detect-btn" id="detectBtn" disabled onclick="runDetection()">
+          <span class="btn-text">Analyse Image</span>
+          <div class="spinner"></div>
+        </button>
+
+        <!-- Result -->
+        <div class="result-box" id="resultBox">
+          <div class="result-top">
+            <div class="result-icon" id="resultIcon"></div>
+            <div>
+              <div class="result-label">Verdict</div>
+              <div class="result-verdict" id="resultVerdict">—</div>
+            </div>
+          </div>
+          <div class="conf-bar-wrap">
+            <div class="conf-label">
+              <span>Confidence</span>
+              <span id="confPct">—</span>
+            </div>
+            <div class="conf-bar-bg">
+              <div class="conf-bar-fill" id="confBar" style="width:0%"></div>
+            </div>
+          </div>
+          <p id="resultNote" style="font-size:0.8rem; color:var(--muted); margin-top:12px; line-height:1.6;"></p>
+        </div>
+
+        <!-- Error -->
+        <div id="errorBox" style="display:none; margin-top:20px; padding:16px 20px; background:rgba(255,92,106,0.07); border:1px solid rgba(255,92,106,0.25); border-radius:var(--radius); font-size:0.875rem; color:#ff8a94;">
+          <strong>Error:</strong> <span id="errorMsg"></span>
+        </div>
+      </div>
+
+      <!-- ── RIGHT: Examples + info ── -->
+      <div class="examples-panel">
+        <h3>Sample Comparisons</h3>
+        <p class="sub">See the visual difference between authentic and AI-generated faces.</p>
+
+        <div class="sample-pair">
+          <div class="sample-card real-card">
+            <img src="samples/real-face.jpeg" alt="Real face"
+                 onerror="this.closest('.sample-card').style.background='linear-gradient(160deg,#0e1a0e,#0e1117)'; this.style.display='none';" />
+            <div class="sample-label">
+              <div class="sample-dot"></div>
+              Real
+            </div>
+          </div>
+          <div class="sample-card fake-card">
+            <img src="samples/fake-face.jpeg" alt="Fake face"
+                 onerror="this.closest('.sample-card').style.background='linear-gradient(160deg,#1a0e0e,#0e1117)'; this.style.display='none';" />
+            <div class="sample-label">
+              <div class="sample-dot"></div>
+              Deepfake
+            </div>
+          </div>
+        </div>
+
+        <div class="how-it-works">
+          <h4>How it works</h4>
+          <div class="step">
+            <div class="step-num">1</div>
+            <p>Your image is received by the FastAPI backend and temporarily stored.</p>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <p>A Haar cascade face detector isolates the largest face region in the photo.</p>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <p>The face crop is normalised and passed through our fine-tuned Xception model.</p>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <p>A softmax confidence score is returned — REAL or FAKE — and the file is deleted.</p>
+          </div>
+        </div>
+
+        <div style="margin-top:20px; padding:16px 20px; background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:var(--radius);">
+          <p style="font-size:0.8rem; color:var(--muted); line-height:1.6;">
+            <strong style="color:var(--text); font-weight:500;">Privacy note:</strong> Uploaded images are never stored permanently. Files are deleted immediately after the prediction is returned.
+          </p>
+        </div>
+      </div>
+
+    </div><!-- /detect-grid -->
+  </div><!-- /detect-wrapper -->
+</main>
+
+<script>
+  const API_BASE = 'http://localhost:8000';  // ← change to your FastAPI host
+  let selectedFile = null;
+
+  // ── Drag & Drop ──
+  function onDragOver(e) {
+    e.preventDefault();
+    document.getElementById('dropzone').classList.add('drag-over');
+  }
+  function onDragLeave(e) {
+    document.getElementById('dropzone').classList.remove('drag-over');
+  }
+  function onDrop(e) {
+    e.preventDefault();
+    document.getElementById('dropzone').classList.remove('drag-over');
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) loadFile(file);
+  }
+
+  // ── File select ──
+  function onFileSelect(input) {
+    if (input.files[0]) loadFile(input.files[0]);
+  }
+
+  function loadFile(file) {
+    selectedFile = file;
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = document.getElementById('preview');
+      img.src = e.target.result;
+      document.getElementById('previewArea').classList.add('show');
+      document.getElementById('detectBtn').disabled = false;
+      document.getElementById('resultBox').classList.remove('show', 'real', 'fake');
+      document.getElementById('errorBox').style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // ── Run Detection ──
+  async function runDetection() {
+    if (!selectedFile) return;
+
+    const btn = document.getElementById('detectBtn');
+    btn.disabled = true;
+    btn.classList.add('btn-loading');
+
+    document.getElementById('resultBox').classList.remove('show', 'real', 'fake');
+    document.getElementById('errorBox').style.display = 'none';
+
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+
+    try {
+      const response = await fetch(`${API_BASE}/predict`, {
+        method: 'POST',
+        body: formData
+      });
+
+      if (!response.ok) throw new Error(`Server error: ${response.status}`);
+
+      const data = await response.json();
+
+      if (data.error) throw new Error(data.error);
+
+      showResult(data.prediction, data.confidence);
+
+    } catch (err) {
+      document.getElementById('errorMsg').textContent = err.message || 'Could not connect to the detection server. Make sure the FastAPI backend is running.';
+      document.getElementById('errorBox').style.display = 'block';
+    } finally {
+      btn.disabled = false;
+      btn.classList.remove('btn-loading');
+    }
+  }
+
+  function showResult(prediction, confidence) {
+    const box     = document.getElementById('resultBox');
+    const icon    = document.getElementById('resultIcon');
+    const verdict = document.getElementById('resultVerdict');
+    const confPct = document.getElementById('confPct');
+    const bar     = document.getElementById('confBar');
+    const note    = document.getElementById('resultNote');
+
+    const isReal = prediction === 'REAL';
+
+    box.className = `result-box show ${isReal ? 'real' : 'fake'}`;
+    icon.textContent = isReal ? '✓' : '✗';
+    verdict.textContent = isReal ? 'Authentic' : 'Deepfake Detected';
+    confPct.textContent = `${confidence.toFixed(1)}%`;
+
+    // Animate bar
+    setTimeout(() => { bar.style.width = `${confidence}%`; }, 50);
+
+    note.textContent = isReal
+      ? `The model is ${confidence.toFixed(1)}% confident this image is authentic. No significant manipulation artefacts were detected in the face region.`
+      : `The model is ${confidence.toFixed(1)}% confident this image has been synthetically manipulated. AI-generated or face-swapped content was detected.`;
+  }
+</script>
+</body>
+</html>
